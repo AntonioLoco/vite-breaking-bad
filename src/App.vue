@@ -1,13 +1,15 @@
 <script>
 import axios from "axios";
-
+import AppHeader from "./components/AppHeader.vue";
 export default {
-
-}
+  components: {
+    AppHeader,
+  }
+} 
 </script>
 
 <template>
-  <h1>Ciao</h1>
+  <AppHeader />
 </template>
 
 <style lang="scss">
