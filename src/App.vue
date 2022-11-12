@@ -17,15 +17,30 @@ export default {
       store,
     }
   },
+  methods: {
+    getCharacter(){
+      this.store.loading = true;
+
+      const params = {
+        ...this.store.categoryFilter && { category: this.store.categoryFilter }
+      }
+
+      axios
+        .get("https://www.breakingbadapi.com/api/characters", { params })
+        .then( (resp) => {
+          this.store.characters = resp.data;
+          console.log(resp.data);
+        })
+        .catch( (error) => {
+          console.log(error);
+        })
+        .finally( () => {
+          this.store.loading = false;
+        });
+    }
+  },
   created() {
-    this.store.loading = true;
-    axios
-    .get("https://www.breakingbadapi.com/api/characters")
-    .then( (resp) => {
-      this.store.characters = resp.data;
-      console.log(this.store.characters);
-      this.store.loading = false;
-    })
+    this.getCharacter();
   }
 } 
 </script>
@@ -35,7 +50,7 @@ export default {
 
   <main>
     <AppLoader  v-if="store.loading" />
-    <CharactersList v-else />
+    <CharactersList v-else @changeOption="getCharacter"/>
   </main>
 </template>
 
